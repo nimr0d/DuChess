@@ -1,0 +1,3 @@
+/home/nimrod/Code/duchess/CMakeFiles/edit_cache.dir
+/home/nimrod/Code/duchess/CMakeFiles/rebuild_cache.dir
+/home/nimrod/Code/duchess/CMakeFiles/duchess.dir

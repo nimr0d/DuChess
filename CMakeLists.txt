@@ -1,0 +1,6 @@
+cmake_minimum_required (VERSION 3.5)
+project (DuChess)
+find_package( OpenCV REQUIRED )
+add_executable(duchess src/main.cc)
+target_link_libraries( duchess ${OpenCV_LIBS} )
+set(CMAKE_BUILD_TYPE Release)
