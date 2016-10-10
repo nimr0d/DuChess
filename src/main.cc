@@ -23,15 +23,10 @@ int edge_count(bitset<81> s) {
   return count;
 }
 
-
 void output_squares(Mat src, int im_count = 1) {
   int width = src.cols, height = src.rows, dim = min(width, height);
 
-  Mat gray(src.rows, src.cols, CV_8UC3);
-  Mat bw(src.rows, src.cols, CV_8UC3);
-  Mat mask(src.rows, src.cols, CV_8UC3);
-  Mat dst(src.rows, src.cols, CV_8UC3);
-
+  Mat gray, bw, mask, dst;
   cvtColor(src, gray, COLOR_BGR2GRAY);
   threshold(gray, bw, 0, 255, THRESH_BINARY | THRESH_OTSU);
 
