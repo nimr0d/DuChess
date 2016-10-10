@@ -45,6 +45,10 @@ void output_squares(Mat src, int im_count = 1) {
   float sq_scale = 1.3;
   vector<Point2f> corners;
   goodFeaturesToTrack(gray, corners, 128, .1, 20, mask, 5);
+  corners.emplace_back(0, 0);
+  corners.emplace_back(width - 1, 0);
+  corners.emplace_back(0, height - 1);
+  corners.emplace_back(width - 1, height - 1);
 
   float max_count = 0;
   vector<Point2f> max_pts;

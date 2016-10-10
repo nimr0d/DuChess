@@ -85,7 +85,6 @@ for i in range(len(label)):
         corr[yTest[i]] += 1
     count += 1
 
-print(correct)
+print(correct, count)
 print(cnt)
 print(corr)
-print(count)
