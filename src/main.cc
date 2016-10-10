@@ -1,8 +1,28 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
+#include <bitset>
 
 using namespace cv;
 using namespace std;
+
+
+int edge_count(bitset<81> s) {
+  int count = 0;
+  for (int i = 0; i < 8; ++i) {
+    for (int j = 0; j < 8; ++j) {
+      int x = 9 * i + j;
+      if (s[x]) {
+        count += !!s[x + 1] + !!s[x + 9];
+      }
+    }
+  }
+  for (int i = 0; i < 8; ++i) {
+    int x = 9 * i + 8;
+    count += !!(s[x] && s[x + 9]);
+  }
+  return count;
+}
+
 
 void output_squares(Mat src, int im_count = 1) {
   int width = src.cols, height = src.rows, dim = min(width, height);
@@ -29,6 +49,7 @@ void output_squares(Mat src, int im_count = 1) {
   float max_count = 0;
   vector<Point2f> max_pts;
   vector<Point2f> pts;
+  bitset<81> grid_set;
 
   for (Point2f c1 : corners) {
     for (Point2f c2 : corners) {
@@ -42,6 +63,7 @@ void output_squares(Mat src, int im_count = 1) {
 
       float count = 0;
       pts.clear();
+      grid_set.reset();
 
       for (float k1 = 0; k1 < 9; ++k1) {
         Point2f r1 = s1 * (k1 / 8);
@@ -54,6 +76,7 @@ void output_squares(Mat src, int im_count = 1) {
             if (norm(pt - c3) <= th) {
               ++count;
               pts.push_back(c3);
+              grid_set[9 * k1 + k2] = 1;
               miss = false;
               break;
             }
@@ -63,6 +86,8 @@ void output_squares(Mat src, int im_count = 1) {
           }
         }
       }
+
+      count += edge_count(grid_set);
 
       if (count > max_count) {
         max_count = count;
@@ -134,7 +159,7 @@ int main(int argc, char *argv[]) {
     cout << "Cannot open " << filename << "\n";
     return 1;
   }
-  for (int i = 0; i < 100; ++i) {
+  for (int i = 0; i < 600; ++i) {
     Mat frame;
     cap >> frame;
     if (frame.empty()) {
